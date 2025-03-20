@@ -1,5 +1,5 @@
 @echo off
-title 🚀 Ultimate Performance Boost for Gaming & Productivity v1.2 🚀
+title Ultimate Performance Boost for Gaming & Productivity v1.2
 color 0A
 
 :: Error checking function
@@ -12,11 +12,13 @@ if %errorlevel% neq 0 (
 
 :MENU
 cls
+color 1F
 echo ***********************************************
 echo *       🚀 Ultimate Performance Boost       *
 echo *         for Gaming & Productivity         *
 echo ***********************************************
 echo.
+color 0A
 echo Choose an option:
 echo.
 echo [1] Boost Computer Performance
@@ -65,6 +67,7 @@ if "%choice%"=="18" exit
 :: Boost computer performance function
 :boostPerformance
 cls
+color 2F
 echo Boosting computer performance...
 timeout /t 2 /nobreak >nul
 :: Commands for boosting performance
@@ -74,6 +77,7 @@ goto MENU
 :: Stop unnecessary Windows services function
 :stopWindowsServices
 cls
+color 4F
 echo Stopping unnecessary Windows services...
 timeout /t 2 /nobreak >nul
 :: Stop unnecessary Windows services
@@ -100,6 +104,7 @@ goto MENU
 :: Clear junk files function
 :clearCache
 cls
+color 3F
 echo Clearing junk files...
 timeout /t 2 /nobreak >nul
 :: Delete temp and cache files
@@ -115,6 +120,7 @@ goto MENU
 :: Clear RAM and DNS Cache function
 :clearRAM
 cls
+color 5F
 echo Clearing RAM and DNS Cache...
 timeout /t 2 /nobreak >nul
 :: Clear DNS Cache
@@ -129,6 +135,7 @@ goto MENU
 :: Optimize Windows for faster response function
 :optimizeWindows
 cls
+color 6F
 echo Optimizing Windows system...
 timeout /t 2 /nobreak >nul
 :: Optimize Windows for faster response
@@ -140,6 +147,7 @@ goto MENU
 :: Disable animations and visual effects function
 :disableAnimations
 cls
+color 7F
 echo Disabling animations and visual effects...
 timeout /t 2 /nobreak >nul
 :: Disable visual effects
@@ -150,6 +158,7 @@ goto MENU
 :: Optimize Internet connection function
 :optimizeInternet
 cls
+color 8F
 echo Optimizing Internet connection...
 timeout /t 2 /nobreak >nul
 :: Optimize internet performance
@@ -161,6 +170,7 @@ goto MENU
 :: Optimize Pagefile function
 :optimizePagefile
 cls
+color 9F
 echo Optimizing pagefile...
 timeout /t 2 /nobreak >nul
 :: Adjust pagefile settings
@@ -170,6 +180,7 @@ goto MENU
 :: Optimize CPU/GPU function
 :optimizeCPU_GPU
 cls
+color AF
 echo Optimizing CPU/GPU...
 timeout /t 2 /nobreak >nul
 :: Optimize CPU/GPU
@@ -184,6 +195,7 @@ goto MENU
 :: Optimize Hard Drive function
 :optimizeHardDrive
 cls
+color BF
 echo Optimizing hard drive...
 timeout /t 2 /nobreak >nul
 :: Disable file compression on HDD
@@ -194,6 +206,7 @@ goto MENU
 :: Set CPU Affinity for games function
 :setAffinity
 cls
+color CF
 echo Setting CPU affinity for game...
 timeout /t 2 /nobreak >nul
 :: Check if specified program exists
@@ -208,6 +221,7 @@ goto MENU
 :: Restart Explorer function
 :restartExplorer
 cls
+color DF
 echo Restarting Explorer...
 timeout /t 2 /nobreak >nul
 :: Restart Explorer
@@ -219,6 +233,7 @@ goto MENU
 :: Optimize gaming system function
 :optimizeGaming
 cls
+color EF
 echo Optimizing gaming system...
 timeout /t 2 /nobreak >nul
 :: Adjust gaming system settings
@@ -230,6 +245,7 @@ goto MENU
 :: Enable High Performance power mode function
 :enableHighPerformance
 cls
+color F0
 echo Enabling High Performance power mode...
 timeout /t 2 /nobreak >nul
 :: Enable High Performance power mode
@@ -242,6 +258,7 @@ goto MENU
 :: Disable file compression on SSD function
 :disableFileCompression
 cls
+color F5
 echo Disabling file compression on SSD...
 timeout /t 2 /nobreak >nul
 :: Disable file compression on SSD
@@ -252,6 +269,7 @@ goto MENU
 :: Enable TRIM for automatic operation function
 :enableTRIM
 cls
+color F1
 echo Enabling TRIM for automatic operation...
 timeout /t 2 /nobreak >nul
 :: Enable TRIM
@@ -262,6 +280,7 @@ goto MENU
 :: Disable defragmentation for SSD function
 :disableDefrag
 cls
+color F9
 echo Disabling defragmentation for SSD...
 timeout /t 2 /nobreak >nul
 :: Disable defragmentation for SSD
