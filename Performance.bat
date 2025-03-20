@@ -59,7 +59,7 @@ if "%choice%"=="18" exit
 cls
 echo กำลังเพิ่มประสิทธิภาพคอมพิวเตอร์...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดสำหรับเพิ่มประสิทธิภาพที่นี่
+:: คำสั่งสำหรับเพิ่มประสิทธิภาพคอมพิวเตอร์
 goto MENU
 
 :: ฟังก์ชั่นหยุด Windows Services
@@ -67,7 +67,20 @@ goto MENU
 cls
 echo กำลังกำลังหยุด Windows Services ที่ไม่จำเป็น...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดที่เกี่ยวกับการปิด Windows Services ที่ไม่จำเป็น
+:: ปิด Windows Services ที่ไม่จำเป็น
+for %%S in (
+    "DiagTrack"
+    "SysMain"
+    "WSearch"
+    "RemoteRegistry"
+    "WindowsSearch"
+    "wuauserv"
+    "WinDefend"
+    "Spooler"
+) do (
+    sc stop %%S >nul 2>&1
+)
+echo ปิด Windows Services เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นเคลียร์ไฟล์ขยะ
@@ -75,7 +88,14 @@ goto MENU
 cls
 echo กำลังกำลังล้างไฟล์ขยะ...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการล้างไฟล์ขยะที่นี่
+:: ลบไฟล์ Temp และ Cache
+del /s /f /q %temp%\*.* >nul 2>&1
+rd /s /q %temp% >nul 2>&1
+md %temp%
+del /s /f /q C:\Windows\Temp\*.* >nul 2>&1
+rd /s /q C:\Windows\Temp >nul 2>&1
+md C:\Windows\Temp
+echo ล้างไฟล์ขยะเสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นเคลียร์ RAM และ DNS Cache
@@ -83,7 +103,9 @@ goto MENU
 cls
 echo กำลังกำลังเคลียร์ RAM และ DNS Cache...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดสำหรับเคลียร์ RAM และ DNS Cache
+:: เคลียร์ DNS Cache
+ipconfig /flushdns >nul
+echo เคลียร์ RAM และ DNS Cache เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง Windows ให้ตอบสนองเร็วขึ้น
@@ -91,7 +113,10 @@ goto MENU
 cls
 echo กำลังกำหนดค่าระบบ Windows...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดที่เกี่ยวกับการปรับแต่ง Windows
+:: ปรับแต่งให้ Windows ตอบสนองเร็วขึ้น
+reg add "HKCU\Control Panel\Desktop" /v "MenuShowDelay" /t REG_SZ /d 0 /f >nul
+reg add "HKCU\Control Panel\Mouse" /v "MouseHoverTime" /t REG_SZ /d 10 /f >nul
+echo ปรับแต่ง Windows เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปิด Animation และ Visual Effects
@@ -99,7 +124,9 @@ goto MENU
 cls
 echo กำลังปิด Animation และ Visual Effects...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปิด Animation ที่นี่
+:: ปิด Visual Effects
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 2 /f >nul
+echo ปิด Animation เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นเพิ่มประสิทธิภาพอินเทอร์เน็ต
@@ -107,7 +134,10 @@ goto MENU
 cls
 echo กำลังกำหนดค่าการเชื่อมต่ออินเทอร์เน็ต...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปรับแต่งอินเทอร์เน็ตที่นี่
+:: ปรับแต่งอินเทอร์เน็ต
+netsh interface tcp set global autotuninglevel=normal >nul
+netsh int tcp set heuristics disabled >nul
+echo เพิ่ม Bandwidth อินเทอร์เน็ตเสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง Pagefile
@@ -115,7 +145,8 @@ goto MENU
 cls
 echo กำลังกำหนดค่า Pagefile...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปรับแต่ง Pagefile ที่นี่
+:: ตั้งค่า Pagefile
+echo คำแนะนำ: ตั้งค่าขนาด Pagefile ให้เหมาะสมตาม RAM
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง CPU/GPU
@@ -123,7 +154,13 @@ goto MENU
 cls
 echo กำลังกำหนดค่า CPU/GPU...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปรับแต่ง CPU/GPU ที่นี่
+:: ปรับแต่ง CPU/GPU
+wmic process where name="explorer.exe" CALL setpriority "high priority" >nul
+wmic process where name="svchost.exe" CALL setpriority "above normal" >nul
+wmic process where name="System" CALL setpriority "realtime" >nul
+powershell -Command "& {Start-Process 'nvidia-smi' -ArgumentList '--applications-clocks=Max' -NoNewWindow -Wait}" >nul
+powershell -Command "& {Start-Process 'RadeonSettings' -ArgumentList '--OverDriveN' -NoNewWindow -Wait}" >nul
+echo ปรับแต่ง CPU/GPU เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง Hard Drive
@@ -131,7 +168,9 @@ goto MENU
 cls
 echo กำลังกำหนดค่า Hard Drive...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปรับแต่ง Hard Drive ที่นี่
+:: ปิดการบีบอัดไฟล์บน HDD
+fsutil behavior set DisableCompression 1 >nul
+echo ปรับแต่ง Hard Drive เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นตั้งค่า Affinity สำหรับเกม
@@ -139,7 +178,9 @@ goto MENU
 cls
 echo กำลังกำหนด Affinity สำหรับเกม...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดสำหรับตั้งค่า Affinity ที่นี่
+:: ตั้งค่า Affinity
+start /affinity 1 "GameApplication.exe"
+echo การตั้งค่า CPU Affinity เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นรีสตาร์ท Explorer
@@ -147,7 +188,10 @@ goto MENU
 cls
 echo กำลังกำหนดค่าระบบ Explorer...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการรีสตาร์ท Explorer ที่นี่
+:: รีสตาร์ท Explorer
+taskkill /F /IM explorer.exe >nul
+start explorer.exe
+echo รีสตาร์ท Explorer เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่งระบบการเล่นเกม
@@ -155,7 +199,10 @@ goto MENU
 cls
 echo กำลังกำหนดค่าระบบการเล่นเกม...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปรับแต่งการเล่นเกมที่นี่
+:: ปรับแต่งสำหรับการเล่นเกม
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Gaming\GameDVR" /v "GameDVR_Enabled" /t REG_DWORD /d 0 /f >nul
+reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\GameDVR" /v "AppCaptureEnabled" /t REG_DWORD /d 0 /f >nul
+echo ปรับแต่งระบบการเล่นเกมเสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นเปิดโหมดพลังงาน High Performance
@@ -163,7 +210,11 @@ goto MENU
 cls
 echo กำลังกำหนดโหมดพลังงาน High Performance...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดเปิดโหมด High Performance ที่นี่
+:: เปิดโหมดพลังงาน High Performance
+powercfg -change -standby-timeout-ac 0 >nul
+powercfg -change -monitor-timeout-ac 0 >nul
+powercfg -setactive SCHEME_MAX >nul
+echo เปิดโหมดพลังงาน High Performance เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปิดการบีบอัดไฟล์บน SSD
@@ -171,7 +222,9 @@ goto MENU
 cls
 echo กำลังกำหนดค่าการบีบอัดไฟล์บน SSD...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปิดการบีบอัดไฟล์ SSD ที่นี่
+:: ปิดการบีบอัดไฟล์บน SSD
+fsutil behavior set DisableCompression 1 >nul
+echo ปิดการบีบอัดไฟล์ SSD เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นตั้งค่า TRIM อัตโนมัติ
@@ -179,7 +232,9 @@ goto MENU
 cls
 echo กำลังกำหนดค่า TRIM ให้ทำงานอัตโนมัติ...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการตั้งค่า TRIM ที่นี่
+:: ตั้งค่า TRIM
+fsutil behavior set disabledeletenotify 0 >nul
+echo ตั้งค่า TRIM เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นปิดการ Defragmentation สำหรับ SSD
@@ -187,5 +242,7 @@ goto MENU
 cls
 echo กำลังกำหนดค่าการ Defragmentation สำหรับ SSD...
 timeout /t 2 /nobreak >nul
-:: ใส่โค้ดการปิดการ Defrag สำหรับ SSD ที่นี่
+:: ปิดการ Defragmentation สำหรับ SSD
+fsutil behavior set disabledefrag 1 >nul
+echo ปิดการ Defrag SSD เสร็จเรียบร้อย!
 goto MENU
