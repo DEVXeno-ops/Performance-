@@ -101,7 +101,7 @@ goto MENU
 :: ฟังก์ชั่นเคลียร์ RAM และ DNS Cache
 :clearRAM
 cls
-echo กำลังกำลังเคลียร์ RAM และ DNS Cache...
+echo กำลังกำหนดค่าการเคลียร์ RAM และ DNS Cache...
 timeout /t 2 /nobreak >nul
 :: เคลียร์ DNS Cache
 ipconfig /flushdns >nul
@@ -122,7 +122,7 @@ goto MENU
 :: ฟังก์ชั่นปิด Animation และ Visual Effects
 :disableAnimations
 cls
-echo กำลังปิด Animation และ Visual Effects...
+echo กำลังกำหนดค่าการปิด Animation และ Visual Effects...
 timeout /t 2 /nobreak >nul
 :: ปิด Visual Effects
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 2 /f >nul
