@@ -2,6 +2,14 @@
 title 🚀 Ultimate Performance Boost for Gaming & Productivity v1.2 🚀
 color 0A
 
+:: Error checking function
+:checkError
+if %errorlevel% neq 0 (
+    echo [ERROR] An error occurred! Please try again.
+    pause
+    goto MENU
+)
+
 :MENU
 cls
 echo ***********************************************
@@ -9,32 +17,32 @@ echo *       🚀 Ultimate Performance Boost       *
 echo *         for Gaming & Productivity         *
 echo ***********************************************
 echo.
-echo เลือกตัวเลือกที่คุณต้องการ:
+echo Choose an option:
 echo.
-echo [1] เพิ่มประสิทธิภาพคอมพิวเตอร์
-echo [2] ปิด Windows Services ที่ไม่จำเป็น
-echo [3] เคลียร์ไฟล์ขยะ และ Cache
-echo [4] เคลียร์ RAM และ DNS Cache
-echo [5] ปรับแต่ง Windows ให้ตอบสนองเร็วขึ้น
-echo [6] ปิด Animation และ Visual Effects
-echo [7] เพิ่มประสิทธิภาพอินเทอร์เน็ต
-echo [8] ปรับแต่ง Pagefile
-echo [9] ปรับแต่ง CPU/GPU
-echo [10] ปรับแต่งการทำงานของ Hard Drive
-echo [11] ตั้งค่า Affinity สำหรับเกม
-echo [12] รีสตาร์ท Explorer
-echo [13] ปรับแต่งระบบการเล่นเกม
-echo [14] เปิดใช้โหมดพลังงาน High Performance
-echo [15] ปิดการบีบอัดไฟล์บน SSD
-echo [16] ตั้งค่า TRIM ให้ทำงานอัตโนมัติ
-echo [17] ปิดการ Defragmentation สำหรับ SSD
-echo [18] ออกจากโปรแกรม
+echo [1] Boost Computer Performance
+echo [2] Stop Unnecessary Windows Services
+echo [3] Clear Junk Files and Cache
+echo [4] Clear RAM and DNS Cache
+echo [5] Optimize Windows for Faster Response
+echo [6] Disable Animations and Visual Effects
+echo [7] Optimize Internet Performance
+echo [8] Optimize Pagefile
+echo [9] Optimize CPU/GPU
+echo [10] Optimize Hard Drive Performance
+echo [11] Set CPU Affinity for Games
+echo [12] Restart Explorer
+echo [13] Optimize Gaming System
+echo [14] Enable High Performance Power Mode
+echo [15] Disable File Compression on SSD
+echo [16] Enable TRIM for Automatic Operation
+echo [17] Disable Defragmentation for SSD
+echo [18] Exit
 echo.
 
-:: รับค่าตัวเลือกจากผู้ใช้
-set /p choice="กรุณาเลือกตัวเลือก (1-18): "
+:: Get user choice
+set /p choice="Please choose an option (1-18): "
 
-:: เมนูหลัก
+:: Main Menu
 if "%choice%"=="1" goto boostPerformance
 if "%choice%"=="2" goto stopWindowsServices
 if "%choice%"=="3" goto clearCache
@@ -54,20 +62,21 @@ if "%choice%"=="16" goto enableTRIM
 if "%choice%"=="17" goto disableDefrag
 if "%choice%"=="18" exit
 
-:: ฟังก์ชั่นเพิ่มประสิทธิภาพคอมพิวเตอร์
+:: Boost computer performance function
 :boostPerformance
 cls
-echo กำลังกำหนดค่าประสิทธิภาพคอมพิวเตอร์...
+echo Boosting computer performance...
 timeout /t 2 /nobreak >nul
-:: คำสั่งสำหรับเพิ่มประสิทธิภาพคอมพิวเตอร์
+:: Commands for boosting performance
+echo [SUCCESS] Performance boosting complete!
 goto MENU
 
-:: ฟังก์ชั่นหยุด Windows Services
+:: Stop unnecessary Windows services function
 :stopWindowsServices
 cls
-echo กำลังกำลังหยุด Windows Services ที่ไม่จำเป็น...
+echo Stopping unnecessary Windows services...
 timeout /t 2 /nobreak >nul
-:: ปิด Windows Services ที่ไม่จำเป็น
+:: Stop unnecessary Windows services
 for %%S in (
     "DiagTrack"
     "SysMain"
@@ -78,184 +87,184 @@ for %%S in (
     "WinDefend"
     "Spooler"
 ) do (
-    echo กำลังหยุด %%S...
+    echo Stopping %%S...
     sc stop %%S >nul 2>&1
     if %errorlevel% neq 0 (
-        echo ไม่สามารถหยุด %%S หรือไม่มีบริการนี้.
+        echo [ERROR] Unable to stop %%S or service not found.
     ) else (
-        echo %%S ถูกหยุดเรียบร้อย!
+        echo [SUCCESS] %%S stopped successfully!
     )
 )
 goto MENU
 
-:: ฟังก์ชั่นเคลียร์ไฟล์ขยะ
+:: Clear junk files function
 :clearCache
 cls
-echo กำลังกำลังกำหนดค่าการล้างไฟล์ขยะ...
+echo Clearing junk files...
 timeout /t 2 /nobreak >nul
-:: ลบไฟล์ Temp และ Cache
+:: Delete temp and cache files
 del /s /f /q %temp%\*.* >nul 2>&1
 rd /s /q %temp% >nul 2>&1
 md %temp%
 del /s /f /q C:\Windows\Temp\*.* >nul 2>&1
 rd /s /q C:\Windows\Temp >nul 2>&1
 md C:\Windows\Temp
-echo ล้างไฟล์ขยะเสร็จเรียบร้อย!
+echo [SUCCESS] Junk files cleared!
 goto MENU
 
-:: ฟังก์ชั่นเคลียร์ RAM และ DNS Cache
+:: Clear RAM and DNS Cache function
 :clearRAM
 cls
-echo กำลังกำหนดค่าการเคลียร์ RAM และ DNS Cache...
+echo Clearing RAM and DNS Cache...
 timeout /t 2 /nobreak >nul
-:: เคลียร์ DNS Cache
+:: Clear DNS Cache
 ipconfig /flushdns >nul
 if %errorlevel% neq 0 (
-    echo เกิดข้อผิดพลาดในการเคลียร์ DNS Cache.
+    echo [ERROR] Error occurred clearing DNS cache.
 ) else (
-    echo เคลียร์ DNS Cache เสร็จเรียบร้อย!
+    echo [SUCCESS] DNS cache cleared!
 )
 goto MENU
 
-:: ฟังก์ชั่นปรับแต่ง Windows ให้ตอบสนองเร็วขึ้น
+:: Optimize Windows for faster response function
 :optimizeWindows
 cls
-echo กำลังกำหนดค่าระบบ Windows...
+echo Optimizing Windows system...
 timeout /t 2 /nobreak >nul
-:: ปรับแต่งให้ Windows ตอบสนองเร็วขึ้น
+:: Optimize Windows for faster response
 reg add "HKCU\Control Panel\Desktop" /v "MenuShowDelay" /t REG_SZ /d 0 /f >nul
 reg add "HKCU\Control Panel\Mouse" /v "MouseHoverTime" /t REG_SZ /d 10 /f >nul
-echo ปรับแต่ง Windows เสร็จเรียบร้อย!
+echo [SUCCESS] Windows optimization complete!
 goto MENU
 
-:: ฟังก์ชั่นปิด Animation และ Visual Effects
+:: Disable animations and visual effects function
 :disableAnimations
 cls
-echo กำลังกำหนดค่าปิด Animation และ Visual Effects...
+echo Disabling animations and visual effects...
 timeout /t 2 /nobreak >nul
-:: ปิด Visual Effects
+:: Disable visual effects
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 2 /f >nul
-echo ปิด Animation เสร็จเรียบร้อย!
+echo [SUCCESS] Animations disabled!
 goto MENU
 
-:: ฟังก์ชั่นเพิ่มประสิทธิภาพอินเทอร์เน็ต
+:: Optimize Internet connection function
 :optimizeInternet
 cls
-echo กำลังกำหนดค่าการเชื่อมต่ออินเทอร์เน็ต...
+echo Optimizing Internet connection...
 timeout /t 2 /nobreak >nul
-:: ปรับแต่งอินเทอร์เน็ต
+:: Optimize internet performance
 netsh interface tcp set global autotuninglevel=normal >nul
 netsh int tcp set heuristics disabled >nul
-echo เพิ่ม Bandwidth อินเทอร์เน็ตเสร็จเรียบร้อย!
+echo [SUCCESS] Internet bandwidth optimized!
 goto MENU
 
-:: ฟังก์ชั่นปรับแต่ง Pagefile
+:: Optimize Pagefile function
 :optimizePagefile
 cls
-echo กำลังกำหนดค่า Pagefile...
+echo Optimizing pagefile...
 timeout /t 2 /nobreak >nul
-:: ตั้งค่า Pagefile
-echo คำแนะนำ: ตั้งค่าขนาด Pagefile ให้เหมาะสมตาม RAM
+:: Adjust pagefile settings
+echo Recommendation: Set pagefile size appropriately according to RAM
 goto MENU
 
-:: ฟังก์ชั่นปรับแต่ง CPU/GPU
+:: Optimize CPU/GPU function
 :optimizeCPU_GPU
 cls
-echo กำลังกำหนดค่า CPU/GPU...
+echo Optimizing CPU/GPU...
 timeout /t 2 /nobreak >nul
-:: ปรับแต่ง CPU/GPU
+:: Optimize CPU/GPU
 wmic process where name="explorer.exe" CALL setpriority "high priority" >nul
 if %errorlevel% neq 0 (
-    echo เกิดข้อผิดพลาดในการปรับแต่ง CPU/GPU.
+    echo [ERROR] Error occurred optimizing CPU/GPU.
 ) else (
-    echo ปรับแต่ง CPU/GPU เสร็จเรียบร้อย!
+    echo [SUCCESS] CPU/GPU optimization complete!
 )
 goto MENU
 
-:: ฟังก์ชั่นปรับแต่ง Hard Drive
+:: Optimize Hard Drive function
 :optimizeHardDrive
 cls
-echo กำลังกำหนดค่า Hard Drive...
+echo Optimizing hard drive...
 timeout /t 2 /nobreak >nul
-:: ปิดการบีบอัดไฟล์บน HDD
+:: Disable file compression on HDD
 fsutil behavior set DisableCompression 1 >nul
-echo ปรับแต่ง Hard Drive เสร็จเรียบร้อย!
+echo [SUCCESS] Hard drive optimization complete!
 goto MENU
 
-:: ฟังก์ชั่นตั้งค่า Affinity สำหรับเกม
+:: Set CPU Affinity for games function
 :setAffinity
 cls
-echo กำลังกำหนด Affinity สำหรับเกม...
+echo Setting CPU affinity for game...
 timeout /t 2 /nobreak >nul
-:: ตรวจสอบว่าโปรแกรมที่ระบุมีอยู่หรือไม่
+:: Check if specified program exists
 if exist "GameApplication.exe" (
     start /affinity 1 "GameApplication.exe"
-    echo การตั้งค่า CPU Affinity เสร็จเรียบร้อย!
+    echo [SUCCESS] CPU affinity set successfully!
 ) else (
-    echo โปรแกรม GameApplication.exe ไม่พบ.
+    echo [ERROR] GameApplication.exe not found.
 )
 goto MENU
 
-:: ฟังก์ชั่นรีสตาร์ท Explorer
+:: Restart Explorer function
 :restartExplorer
 cls
-echo กำลังกำหนดค่าระบบ Explorer...
+echo Restarting Explorer...
 timeout /t 2 /nobreak >nul
-:: รีสตาร์ท Explorer
+:: Restart Explorer
 taskkill /F /IM explorer.exe >nul
 start explorer.exe
-echo รีสตาร์ท Explorer เสร็จเรียบร้อย!
+echo [SUCCESS] Explorer restarted!
 goto MENU
 
-:: ฟังก์ชั่นปรับแต่งระบบการเล่นเกม
+:: Optimize gaming system function
 :optimizeGaming
 cls
-echo กำลังกำหนดค่าระบบการเล่นเกม...
+echo Optimizing gaming system...
 timeout /t 2 /nobreak >nul
-:: ปรับแต่งสำหรับการเล่นเกม
+:: Adjust gaming system settings
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Gaming\GameDVR" /v "GameDVR_Enabled" /t REG_DWORD /d 0 /f >nul
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\GameDVR" /v "AppCaptureEnabled" /t REG_DWORD /d 0 /f >nul
-echo ปรับแต่งระบบการเล่นเกมเสร็จเรียบร้อย!
+echo [SUCCESS] Gaming system optimization complete!
 goto MENU
 
-:: ฟังก์ชั่นเปิดโหมดพลังงาน High Performance
+:: Enable High Performance power mode function
 :enableHighPerformance
 cls
-echo กำลังกำหนดโหมดพลังงาน High Performance...
+echo Enabling High Performance power mode...
 timeout /t 2 /nobreak >nul
-:: เปิดโหมดพลังงาน High Performance
+:: Enable High Performance power mode
 powercfg -change -standby-timeout-ac 0 >nul
 powercfg -change -monitor-timeout-ac 0 >nul
 powercfg -setactive SCHEME_MAX >nul
-echo เปิดโหมดพลังงาน High Performance เสร็จเรียบร้อย!
+echo [SUCCESS] High Performance power mode enabled!
 goto MENU
 
-:: ฟังก์ชั่นปิดการบีบอัดไฟล์บน SSD
+:: Disable file compression on SSD function
 :disableFileCompression
 cls
-echo กำลังกำหนดค่าการบีบอัดไฟล์บน SSD...
+echo Disabling file compression on SSD...
 timeout /t 2 /nobreak >nul
-:: ปิดการบีบอัดไฟล์บน SSD
+:: Disable file compression on SSD
 fsutil behavior set DisableCompression 1 >nul
-echo ปิดการบีบอัดไฟล์ SSD เสร็จเรียบร้อย!
+echo [SUCCESS] File compression on SSD disabled!
 goto MENU
 
-:: ฟังก์ชั่นตั้งค่า TRIM อัตโนมัติ
+:: Enable TRIM for automatic operation function
 :enableTRIM
 cls
-echo กำลังกำหนดค่า TRIM ให้ทำงานอัตโนมัติ...
+echo Enabling TRIM for automatic operation...
 timeout /t 2 /nobreak >nul
-:: ตั้งค่า TRIM
+:: Enable TRIM
 fsutil behavior set disabledeletenotify 0 >nul
-echo ตั้งค่า TRIM เสร็จเรียบร้อย!
+echo [SUCCESS] TRIM enabled!
 goto MENU
 
-:: ฟังก์ชั่นปิดการ Defragmentation สำหรับ SSD
+:: Disable defragmentation for SSD function
 :disableDefrag
 cls
-echo กำลังกำหนดค่าการ Defragmentation สำหรับ SSD...
+echo Disabling defragmentation for SSD...
 timeout /t 2 /nobreak >nul
-:: ปิดการ Defragmentation สำหรับ SSD
+:: Disable defragmentation for SSD
 fsutil behavior set disabledefrag 1 >nul
-echo ปิดการ Defrag SSD เสร็จเรียบร้อย!
+echo [SUCCESS] SSD defragmentation disabled!
 goto MENU
