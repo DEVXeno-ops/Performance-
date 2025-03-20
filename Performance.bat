@@ -57,7 +57,7 @@ if "%choice%"=="18" exit
 :: ฟังก์ชั่นเพิ่มประสิทธิภาพคอมพิวเตอร์
 :boostPerformance
 cls
-echo กำลังเพิ่มประสิทธิภาพคอมพิวเตอร์...
+echo กำลังกำหนดค่าประสิทธิภาพคอมพิวเตอร์...
 timeout /t 2 /nobreak >nul
 :: คำสั่งสำหรับเพิ่มประสิทธิภาพคอมพิวเตอร์
 goto MENU
@@ -78,15 +78,20 @@ for %%S in (
     "WinDefend"
     "Spooler"
 ) do (
+    echo กำลังหยุด %%S...
     sc stop %%S >nul 2>&1
+    if %errorlevel% neq 0 (
+        echo ไม่สามารถหยุด %%S หรือไม่มีบริการนี้.
+    ) else (
+        echo %%S ถูกหยุดเรียบร้อย!
+    )
 )
-echo ปิด Windows Services เสร็จเรียบร้อย!
 goto MENU
 
 :: ฟังก์ชั่นเคลียร์ไฟล์ขยะ
 :clearCache
 cls
-echo กำลังกำลังล้างไฟล์ขยะ...
+echo กำลังกำลังกำหนดค่าการล้างไฟล์ขยะ...
 timeout /t 2 /nobreak >nul
 :: ลบไฟล์ Temp และ Cache
 del /s /f /q %temp%\*.* >nul 2>&1
@@ -105,7 +110,11 @@ echo กำลังกำหนดค่าการเคลียร์ RAM �
 timeout /t 2 /nobreak >nul
 :: เคลียร์ DNS Cache
 ipconfig /flushdns >nul
-echo เคลียร์ RAM และ DNS Cache เสร็จเรียบร้อย!
+if %errorlevel% neq 0 (
+    echo เกิดข้อผิดพลาดในการเคลียร์ DNS Cache.
+) else (
+    echo เคลียร์ DNS Cache เสร็จเรียบร้อย!
+)
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง Windows ให้ตอบสนองเร็วขึ้น
@@ -122,7 +131,7 @@ goto MENU
 :: ฟังก์ชั่นปิด Animation และ Visual Effects
 :disableAnimations
 cls
-echo กำลังกำหนดค่าการปิด Animation และ Visual Effects...
+echo กำลังกำหนดค่าปิด Animation และ Visual Effects...
 timeout /t 2 /nobreak >nul
 :: ปิด Visual Effects
 reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects" /v "VisualFXSetting" /t REG_DWORD /d 2 /f >nul
@@ -156,11 +165,11 @@ echo กำลังกำหนดค่า CPU/GPU...
 timeout /t 2 /nobreak >nul
 :: ปรับแต่ง CPU/GPU
 wmic process where name="explorer.exe" CALL setpriority "high priority" >nul
-wmic process where name="svchost.exe" CALL setpriority "above normal" >nul
-wmic process where name="System" CALL setpriority "realtime" >nul
-powershell -Command "& {Start-Process 'nvidia-smi' -ArgumentList '--applications-clocks=Max' -NoNewWindow -Wait}" >nul
-powershell -Command "& {Start-Process 'RadeonSettings' -ArgumentList '--OverDriveN' -NoNewWindow -Wait}" >nul
-echo ปรับแต่ง CPU/GPU เสร็จเรียบร้อย!
+if %errorlevel% neq 0 (
+    echo เกิดข้อผิดพลาดในการปรับแต่ง CPU/GPU.
+) else (
+    echo ปรับแต่ง CPU/GPU เสร็จเรียบร้อย!
+)
 goto MENU
 
 :: ฟังก์ชั่นปรับแต่ง Hard Drive
@@ -178,9 +187,13 @@ goto MENU
 cls
 echo กำลังกำหนด Affinity สำหรับเกม...
 timeout /t 2 /nobreak >nul
-:: ตั้งค่า Affinity
-start /affinity 1 "GameApplication.exe"
-echo การตั้งค่า CPU Affinity เสร็จเรียบร้อย!
+:: ตรวจสอบว่าโปรแกรมที่ระบุมีอยู่หรือไม่
+if exist "GameApplication.exe" (
+    start /affinity 1 "GameApplication.exe"
+    echo การตั้งค่า CPU Affinity เสร็จเรียบร้อย!
+) else (
+    echo โปรแกรม GameApplication.exe ไม่พบ.
+)
 goto MENU
 
 :: ฟังก์ชั่นรีสตาร์ท Explorer
